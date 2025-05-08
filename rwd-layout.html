@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RWD回應式設計</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #fffaf0, #fdf5e6);
+    }
+
+    /* 導覽列 */
+    .navbar {
+      background-color: #fff7e6;
+      color: #5a4636;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #d97706;
+      margin-bottom: 8px;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      gap: 20px;
+    }
+
+    .navbar li {
+      text-align: center;
+    }
+
+    .navbar a {
+      color: #5a4636;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #d97706;
+      text-shadow: 0 0 5px rgba(217, 119, 6, 0.3);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      background: #5a4636;
+      margin: 5px 0;
+      width: 25px;
+      border-radius: 3px;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        align-items: flex-start;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        background: #fff3dc;
+        width: 100%;
+        display: none;
+        margin-top: 10px;
+      }
+
+      .navbar ul.show {
+        display: flex;
+      }
+
+      .navbar li {
+        margin: 10px 0;
+      }
+    }
+
+    /* 六格內容 */
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .box {
+      width: 16.66%;
+      padding: 10px;
+      background: linear-gradient(to top right, #fffefc, #fffbf2);
+      border: 1px solid #e4d3b2;
+      border-radius: 8px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+      transform: translateY(20px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .box img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: transform 0.3s, filter 0.3s, box-shadow 0.3s;
+    }
+
+    .box img:hover {
+      transform: scale(1.07);
+      filter: brightness(1.08);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .box h2 {
+      margin: 10px 0 5px;
+      color: #d97706;
+      font-weight: 600;
+    }
+
+    .box p {
+      margin: 0;
+      font-size: 14px;
+      color: #5a4636;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 響應式調整 */
+    @media (max-width: 768px) {
+      .box {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .box {
+        width: 100%;
+      }
+    }
+    /* 留言區 */
+.message-section {
+  padding: 40px 20px;
+  background-color: #fff7e6;
+  text-align: center;
+  color: #5a4636;
+}
+
+.message-section form {
+  max-width: 500px;
+  margin: 20px auto;
+  text-align: left;
+}
+
+.message-section label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+.message-section input,
+.message-section textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.message-section button {
+  background-color: #d97706;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.message-section button:hover {
+  background-color: #b45309;
+}
+
+/* 頁尾 */
+footer {
+  background-color: #f2e6d9;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #5a4636;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- 導覽列 -->
+  <nav class="navbar">
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="logo">這是一個回應式網頁過長的範例</div>
+    <ul id="nav-links">
+      <li><a href="#">選項1</a></li>
+      <li><a href="#">選項2</a></li>
+      <li><a href="#">選項3</a></li>
+      <li><a href="#">選項4</a></li>
+      <li><a href="#">選項5</a></li>
+      <li><a href="#">選項6</a></li>
+    </ul>
+  </nav>
+
+  <!-- 六格內容 -->
+  <div class="row">
+    <div class="box">
+      <img src="企鵝.jpg" alt="圖片1">
+      <h2>企鵝</h2>
+    </div>
+    <div class="box">
+      <img src="駱駝.jpeg" alt="圖片2">
+      <h2>駱駝</h2>
+    </div>
+    <div class="box">
+      <img src="海豚.jpg" alt="圖片3">
+      <h2>海豚</h2>
+    </div>
+    <div class="box">
+      <img src="斑馬.jpeg" alt="圖片4">
+      <h2>斑馬</h2>
+    </div>
+    <div class="box">
+      <img src="樹懶.jpg!s1" alt="圖片5">
+      <h2>樹懶</h2>
+    </div>
+    <div class="box">
+      <img src="兔子.png" alt="圖片6">
+      <h2>兔子</h2>
+    </div>
+  </div>
+
+  <!-- 漢堡選單 JavaScript -->
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('nav-links');
+      nav.classList.toggle('show');
+    }
+  </script>
+<!-- 留言區 -->
+<section class="message-section">
+  <h2>留言區 💬</h2>
+  <p>歡迎留言分享你對這些動物的想法或建議！</p>
+  <form>
+    <label for="name">你的名字：</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="message">留言內容：</label>
+    <textarea id="message" name="message" rows="4" required></textarea>
+
+    <button type="submit">送出留言</button>
+  </form>
+</section>
+
+<!-- 頁尾 -->
+<footer>
+  <p>© RWD回應式設計 by 陳嘉翰｜聯絡我：hankchen0807@gmail.com</p>
+</footer>
+
+</body>
+</html>
